@@ -140,7 +140,7 @@ Route::middleware(['auth:admin'])->prefix('admin/dashboard')->group(function () 
     Route::post('/event/store', [EventController::class, 'store']);
     Route::post('/event/update/{id}', [EventController::class, 'update']);
     Route::delete('/event/delete/{id}', [EventController::class, 'destroy']);
-
+    
     // Payment Admin Show
     Route::get('/payments', [PaymentController::class, 'index']);
 });

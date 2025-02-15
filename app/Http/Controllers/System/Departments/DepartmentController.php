@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\System\Departments;
 
 use App\Http\Controllers\Controller;
-use App\Models\Department;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\System\Departments\DepartmentRequest;
+use App\Repositories\Departments\DepartmentRepository;
 
 class DepartmentController extends Controller
 {
@@ -14,26 +13,15 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = Department::get();
-        return response()->json([
-            "departments" => $departments
-        ]);
+        return (new DepartmentRepository())->index();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(DepartmentRequest $request)
     {
-        Validator::make($request->all(),[
-            "name" => 'required',
-            "description" => 'nullable',
-        ]);
-        $department = Department::create($request->all());
-        return response()->json([
-            "message" => "Department Added Successfuly",
-            "department" => $department
-        ]);
+        return (new DepartmentRepository())->store($request);
     }
 
     /**
@@ -41,27 +29,15 @@ class DepartmentController extends Controller
      */
     public function show(string $id)
     {
-        $department = Department::findOrFail($id);
-        return response()->json([
-            "department" => $department
-        ]);
+        return (new DepartmentRepository())->show($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(DepartmentRequest $request, string $id)
     {
-        Validator::make($request->all(),[
-            "name" => $request->name,
-            "description" => $request->description,
-        ]);
-        $department = Department::findOrFail($id);
-        $department->update($request->all());
-        return response()->json([
-            "message" => "Department Updated Successfuly",
-            "department" => $department,
-        ]);
+        return (new DepartmentRepository())->update($request, $id);
     }
 
     /**
@@ -69,10 +45,6 @@ class DepartmentController extends Controller
      */
     public function destroy(string $id)
     {
-        $department = Department::findOrFail($id);
-        $department->delete();
-        return response()->json([
-            "message" => "Department Deleted Successfuly"
-        ]);
+        return (new DepartmentRepository())->destroy($id);
     }
 }
