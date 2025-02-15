@@ -26,13 +26,16 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         Validator::make($request->all(), [
-            "customer_id" => "required",
-            "status" => "required",
             "delivery_address" => "required",
             "total_amount" => "nullable",
             "special_instructions" => "nullable",
         ]);
-        $order = Order::create($request->all());
+        $order = Order::create([
+            'customer_id' => auth('customer')->user()->id,
+            'delivery_address' => $request->delivery_address,
+            'total_amount' => $request->total_amount,
+            'special_instructions' => $request->special_instructions
+        ]);
         return response()->json([
             "message" => "Order Added Successfuly!!",
             "order" => $order
@@ -84,7 +87,7 @@ class OrderController extends Controller
 
     public function showCustomerOrders()
     {
-        $orders = Order::where('customer_id', auth()->user()->id)->get();
+        $orders = Order::where('customer_id', auth('customer')->user()->id)->get();
         return response()->json([
             "orders" => $orders
         ]);

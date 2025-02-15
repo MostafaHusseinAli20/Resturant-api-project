@@ -46,7 +46,7 @@ class EmployeeController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:employees',
+            'email' => 'required|string|email|max:255|unique:employees,email',
             'password' => 'required|min:8',
             "department_id" => "required",
             "position" => "required",
@@ -61,7 +61,9 @@ class EmployeeController extends Controller
         }
 
         $employee = Employee::find($id);
-        $employee->update($request->all());
+        $employee->update(
+            $request->all()
+        );
         return response()->json([
             "message" => "Employee Updated Successfuly",
             "employee" => $employee

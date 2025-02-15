@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->foreignId('department_id')->constrained('departments')->cascadeOnDelete();
             $table->string('position');
-            $table->date('hire_date')->nullable();
+            $table->dateTime('hire_date')->nullable();
             $table->decimal('salary');
             $table->string('phone_number');
             $table->string('address')->nullable();

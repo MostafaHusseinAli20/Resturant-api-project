@@ -6,10 +6,15 @@ use App\Http\Controllers\Auth\Employee\AuthEmployeeController;
 use App\Http\Controllers\System\Categories\CategoryController;
 use App\Http\Controllers\System\Departments\DepartmentController;
 use App\Http\Controllers\System\EmployeeDashboard\EmployeeController;
+use App\Http\Controllers\System\Events\EventController;
+use App\Http\Controllers\System\Feedbacks\FeedbdackController;
 use App\Http\Controllers\System\Hero\HeroSectionController;
 use App\Http\Controllers\System\Menus\MenuItemController;
 use App\Http\Controllers\System\Orders\OrderController;
 use App\Http\Controllers\System\Orders\OrderItemController;
+use App\Http\Controllers\System\Payments\PaymentController;
+use App\Http\Controllers\System\Promotions\PromotionController;
+use App\Http\Controllers\System\Reservations\ReservationController;
 use App\Http\Controllers\System\Roles\RoleController;
 use App\Http\Controllers\System\Tables\TableController;
 use Illuminate\Support\Facades\Route;
@@ -65,12 +70,18 @@ Route::get('/menu_item/{id}', [MenuItemController::class, 'show']);
 // Table Route
 Route::get('/tables', [TableController::class, 'index']);
 
+// Feedback Route
+Route::get('/feedbacks', [FeedbdackController::class, 'index']);
+
+// Event Routes
+Route::get('/events', [EventController::class, 'index']);
+Route::get('/event/show/{id}', [EventController::class, 'show']);
 
 // Admin Dashboard Routes 
 Route::middleware(['auth:admin'])->prefix('admin/dashboard')->group(function () {
     // Hero Section Added
     Route::post('/hero/store', [HeroSectionController::class,'store']);
-    
+
     // Categories
     Route::post('/category/store', [CategoryController::class, 'store']);
     Route::post('/category/update/{id}', [CategoryController::class, 'update']);
@@ -99,9 +110,7 @@ Route::middleware(['auth:admin'])->prefix('admin/dashboard')->group(function () 
     // Orders Routes
     Route::get('/orders', [OrderController::class,'index']);
     Route::get('/order/show/{id}', [OrderController::class,'show']);
-    Route::post('/order/store', [OrderController::class,'store']);
-    Route::post('/order/update/{id}', [OrderController::class,'update']);
-    Route::delete('/order/delete/{id}', [OrderController::class,'destroy']);
+   
 
     // Order Item Routes
     Route::get('/order_item/show/{id}', [OrderItemController::class, 'show']);
@@ -112,6 +121,28 @@ Route::middleware(['auth:admin'])->prefix('admin/dashboard')->group(function () 
     Route::post('/table/store', [TableController::class, 'store']);
     Route::post('/table/update/{id}', [TableController::class, 'update']);
     Route::delete('/table/delete/{id}', [TableController::class, 'destroy']);
+
+    // Reservation Routes
+    Route::get('/reservation', [ReservationController::class, 'index']);
+    Route::get('/reservation/show/{id}', [ReservationController::class, 'show']);
+    Route::post('/reservation/store', [ReservationController::class, 'store']);
+    Route::post('/reservation/update/{id}', [ReservationController::class, 'update']);
+    Route::delete('/reservation/delete/{id}', [ReservationController::class, 'destroy']);
+
+    // Promotions Routes
+    Route::get('/promotions', [PromotionController::class, 'index']);
+    Route::get('/promotion/show/{id}', [PromotionController::class, 'show']);
+    Route::post('/promotion/store', [PromotionController::class, 'store']);
+    Route::post('/promotion/update/{id}', [PromotionController::class, 'update']);
+    Route::delete('/promotion/delete/{id}', [PromotionController::class, 'destroy']);
+
+    // Events Routes
+    Route::post('/event/store', [EventController::class, 'store']);
+    Route::post('/event/update/{id}', [EventController::class, 'update']);
+    Route::delete('/event/delete/{id}', [EventController::class, 'destroy']);
+
+    // Payment Admin Show
+    Route::get('/payments', [PaymentController::class, 'index']);
 });
 
 // Employee Dashboard Routes
@@ -124,6 +155,21 @@ Route::middleware(['auth:employee'])->prefix('employee/dashboard')->group(functi
 });
 
 Route::middleware(['auth:customer'])->prefix('/customer')->group(function () {
-    // Orders
+    // Reservation
+    Route::get('/reservation/show', [ReservationController::class, 'showCustomerReservation']);
+    Route::delete('/reservation/delete', [ReservationController::class, 'deleteCustomerReservation']);
+    
+    // Feedback Routes
+    Route::post('/feedback/store', [FeedbdackController::class, 'store']);
+    Route::post('/feedback/update/{id}', [FeedbdackController::class, 'update']);
+    Route::delete('/feedback/delete/{id}', [FeedbdackController::class, 'destroy']);
+    
+    // Payment Customer Routes
+    Route::post('/payment/store', [PaymentController::class, 'store']);
+    
+    // Orders Customer Routes
     Route::get('/order/show', [OrderController::class, 'showCustomerOrders']);
+    Route::post('/order/store', [OrderController::class,'store']);
+    Route::post('/order/update/{id}', [OrderController::class,'update']);
+    Route::delete('/order/delete/{id}', [OrderController::class,'destroy']);
 });

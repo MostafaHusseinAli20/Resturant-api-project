@@ -31,7 +31,10 @@ class AuthEmployeeController extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        $employee = Employee::create($request->all(), Hash::make($request->get('password')));
+        $employee = Employee::create(
+            $request->all(),
+            Hash::make($request->get('password')),
+        );
 
         $token = JWTAuth::fromUser($employee);
 
