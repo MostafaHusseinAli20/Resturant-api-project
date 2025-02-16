@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\System\Events;
 
 use App\Http\Controllers\Controller;
-use App\Models\Event;
-use Illuminate\Http\Request;
+use App\Http\Requests\System\Events\EventReqest;
+use App\Repositories\Events\EventRepository;
 
 class EventController extends Controller
 {
@@ -13,33 +13,15 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::get();
-        return response()->json($events);
+        return (new EventRepository())->index();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EventReqest $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'event_date' => 'nullable',
-            'loacation' => 'required|string',
-            'organizer' => 'required|string',
-            'description' => 'nullable|string'
-        ]);
-        $event = Event::create([
-            'name' => $request->name,
-            'event_date' => now(),
-            'loacation' => $request->loacation,
-            'organizer' => $request->organizer,
-            'description' => $request->description
-        ]);
-        return response()->json([
-            "message" => "Event Adedd Successfuly!",
-            "event" => $event
-        ]);
+        return (new EventRepository())->store($request);
     }
 
     /**
@@ -47,34 +29,15 @@ class EventController extends Controller
      */
     public function show(string $id)
     {
-        $event = Event::find($id);
-        return response()->json($event);
+        return (new EventRepository())->show($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(EventReqest $request, string $id)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'event_date' => 'nullable',
-            'loacation' => 'required|string',
-            'organizer' => 'required|string',
-            'description' => 'nullable|string'
-        ]);
-        $event = Event::find($id);
-        $event->update([
-            'name' => $request->name,
-            'event_date' => now(),
-            'loacation' => $request->loacation,
-            'organizer' => $request->organizer,
-            'description' => $request->description
-        ]);
-        return response()->json([
-            "message" => "Event Adedd Successfuly!",
-            "event" => $event
-        ]);
+        return (new EventRepository())->update($request, $id);
     }
 
     /**
@@ -82,10 +45,6 @@ class EventController extends Controller
      */
     public function destroy(string $id)
     {
-        $event = Event::find($id);
-        $event->delete();
-        return response()->json([
-            "message" => "Event Deleted Successfuly!"
-        ]);
+        return (new EventRepository())->destroy($id);
     }
 }

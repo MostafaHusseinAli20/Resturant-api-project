@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\System\Menus;
 
 use App\Http\Controllers\Controller;
-use App\Models\MenuItem;
-use App\Models\MenuItemImage;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\System\Menus\MenuItemReqest;
+use App\Repositories\Menus\MenuItemRepository;
 
 class MenuItemController extends Controller
 {
@@ -16,53 +13,15 @@ class MenuItemController extends Controller
      */
     public function index()
     {
-        $menus = MenuItem::get();
-        return response()->json([
-            "menus" => $menus
-        ]);
+        return (new MenuItemRepository())->index();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(MenuItemReqest $request)
     {
-        $validator = Validator::make($request->all(), [
-            "name" => "required",
-            "description" => "nullable",
-            "price" => "required|numeric",
-            "category_id" => "required|exists:categories,id",
-            "preparation_time" => "nullable|integer",
-            "image_path.*" => "nullable|image|mimes:jpeg,png,jpg,gif|max:2048",
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(["errors" => $validator->errors()], 422);
-        }
-
-        $menuItem = MenuItem::create([
-            "name" => $request->name,
-            "description" => $request->description,
-            "price" => $request->price,
-            "category_id" => $request->category_id,
-            "preparation_time" => $request->preparation_time,
-        ]);
-
-        if ($request->hasFile('image_path')) {
-            foreach ($request->file('image_path') as $image) {
-                $imagePath = $image->store('menu_item_images', 'public');
-
-                MenuItemImage::create([
-                    "menu_item_id" => $menuItem->id,
-                    "image_path" => $imagePath,
-                ]);
-            }
-        }
-
-        return response()->json([
-            "message" => "Menu Item Added Successfully!",
-            "menu_item" => $menuItem,
-        ]);
+        return (new MenuItemRepository())->store($request);
     }
 
     /**
@@ -70,55 +29,15 @@ class MenuItemController extends Controller
      */
     public function show(string $id)
     {
-        $menuItem = MenuItem::findOrFail($id);
-        return response()->json([
-            "menu_item" => $menuItem,
-        ]);
+        return (new MenuItemRepository())->show($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(MenuItemReqest $request, string $id)
     {
-        $validator = Validator::make($request->all(), [
-            "name" => "required",
-            "description" => "nullable",
-            "price" => "required",
-            "category_id" => "required",
-            "preparation_time" => "nullable",
-            "image_path.*" => "nullable|image|mimes:jpeg,png,jpg,gif|max:2048",
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(["errors" => $validator->errors()], 422);
-        }
-
-        $menuItem = MenuItem::findOrFail($id);
-
-        $menuItem->update([
-            "name" => $request->name,
-            "description" => $request->description,
-            "price" => $request->price,
-            "category_id" => $request->category_id,
-            "preparation_time" => $request->preparation_time,
-        ]);
-
-        if ($request->hasFile('image_path')) {
-            foreach ($request->file('image_path') as $image) {
-                $imagePath = $image->store('menu_item_images', 'public');
-
-                MenuItemImage::create([
-                    'menu_item_id' => $menuItem->id,
-                    "image_path" => $imagePath,
-                ]);
-            }
-        }
-
-        return response()->json([
-            "message" => "Menu Item Updated Successfuly!",
-            "menu_item" => $menuItem,
-        ]);
+        return (new MenuItemRepository())->update($request, $id);
     }
 
     /**
@@ -126,20 +45,6 @@ class MenuItemController extends Controller
      */
     public function destroy(string $id)
     {
-        $menuItem = MenuItem::findOrFail($id);
-
-        $images = $menuItem->images;
-
-        foreach ($images as $image) {
-            Storage::disk('public')->delete($image->image_path);
-        }
-
-        $menuItem->images()->delete();
-
-        $menuItem->delete();
-
-        return response()->json([
-            "message" => "Menu Item Deleted Successfuly",
-        ]);
+        return (new MenuItemRepository())->destroy($id);
     }
 }

@@ -30,9 +30,9 @@ abstract class FileFactoryCommand extends Command
         return __DIR__ . "/../../../stubs/{$stubName}.stub";
     }
 
-    public function mkdir($path) 
+    public function mkdir($path)
     {
-       $this->file->makeDirectory($path, 0777, true , true);
+        $this->file->makeDirectory($path, 0777, true, true);
         return $path;
     }
 
@@ -41,14 +41,13 @@ abstract class FileFactoryCommand extends Command
         return [
             'NAME' => $this->singleClassName($this->argument('classname')),
         ];
-    } 
+    }
 
     public function stubContent($stubPath, $stubVariables)
     {
         $content = file_get_contents($stubPath);
-        foreach($stubVariables as $key => $name)
-        {
-            $contents = str_replace('$' . $key, $name , $content);
+        foreach ($stubVariables as $key => $name) {
+            $contents = str_replace('$' . $key, $name, $content);
         }
         return $contents;
     }
@@ -67,8 +66,7 @@ abstract class FileFactoryCommand extends Command
         $path = $this->getPath();
         $this->mkdir(dirname($path));
 
-        if($this->file->exists($path))
-        {
+        if ($this->file->exists($path)) {
             $this->info('This file already exists');
         }
 

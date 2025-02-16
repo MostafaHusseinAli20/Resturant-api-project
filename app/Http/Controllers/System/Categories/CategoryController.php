@@ -31,7 +31,6 @@ class CategoryController extends Controller
     public function show(string $id)
     {
         return (new CategoryRepository())->show($id);
-        
     }
 
     /**

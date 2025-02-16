@@ -140,9 +140,12 @@ Route::middleware(['auth:admin'])->prefix('admin/dashboard')->group(function () 
     Route::post('/event/store', [EventController::class, 'store']);
     Route::post('/event/update/{id}', [EventController::class, 'update']);
     Route::delete('/event/delete/{id}', [EventController::class, 'destroy']);
-    
+
     // Payment Admin Show
     Route::get('/payments', [PaymentController::class, 'index']);
+    Route::get('/payment/show/{id}', [PaymentController::class, 'show']);
+    Route::delete('/payment/delete/{id}', [PaymentController::class, 'destroy']);
+    Route::delete('/payment/forcedelete/{id}', [PaymentController::class, 'forceDestroy']);
 });
 
 // Employee Dashboard Routes
@@ -166,6 +169,7 @@ Route::middleware(['auth:customer'])->prefix('/customer')->group(function () {
     
     // Payment Customer Routes
     Route::post('/payment/store', [PaymentController::class, 'store']);
+    
     
     // Orders Customer Routes
     Route::get('/order/show', [OrderController::class, 'showCustomerOrders']);

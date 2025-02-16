@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\System\Feedbacks;
 
 use App\Http\Controllers\Controller;
-use App\Models\Feedback;
-use Illuminate\Http\Request;
+use App\Http\Requests\System\Feedbacks\FeedbackReqest;
+use App\Repositories\Feedbacks\FeedbackRepository;
 
 class FeedbdackController extends Controller
 {
@@ -13,33 +13,15 @@ class FeedbdackController extends Controller
      */
     public function index()
     {
-        $feedbacks = Feedback::get();
-        return response()->json($feedbacks);
+        return (new FeedbackRepository())->index();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(FeedbackReqest $request)
     {
-        $request->validate([
-            'customer_id' => 'nullable|exists:customers,id',
-            'order_id' => 'required|exists:orders,id',
-            'rate' => 'required|integer',
-            'comments' => 'nullable|string'
-        ]);
-
-        $feedback = Feedback::create([
-            'customer_id' => auth('customer')->user()->id,
-            'order_id' => $request->order_id,
-            'rate' => $request->rate,
-            'comments' => $request->comments
-        ]);
-
-        return response()->json([
-            "message" => "Feedback Created Successfuly",
-            "feedback" => $feedback
-        ]);
+        return (new FeedbackRepository())->store($request);
     }
 
     /**
@@ -47,33 +29,15 @@ class FeedbdackController extends Controller
      */
     public function show(string $id)
     {
-        $feedback = Feedback::find($id);
-        return response()->json($feedback);
+        return (new FeedbackRepository())->show($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(FeedbackReqest $request, string $id)
     {
-        $request->validate([
-            'customer_id' => 'nullable|exists:customers,id',
-            'order_id' => 'required|exists:orders,id',
-            'rate' => 'required|integer',
-            'comments' => 'nullable|string'
-        ]);
-        $feedback = Feedback::find($id);
-        $feedback->update([
-            'customer_id' => auth('customer')->user()->id,
-            'order_id' => $request->order_id,
-            'rate' => $request->rate,
-            'comments' => $request->comments
-        ]);
-
-        return response()->json([
-            "message" => "Feedback Created Successfuly",
-            "feedback" => $feedback
-        ]);
+        return (new FeedbackRepository())->update($request, $id);
     }
 
     /**
@@ -81,16 +45,6 @@ class FeedbdackController extends Controller
      */
     public function destroy(string $id)
     {
-        $feedback = Feedback::find($id);
-        if($feedback && $feedback->customer_id == auth('customer')->user()->id){
-            $feedback->delete();
-
-            return response()->json([
-                "message" => "Feedback Deleted Successfully"
-            ]);
-        }
-        return response()->json([
-            "message" => "Feedback Not Found or Unauthorized"
-        ], 403);
+        return (new FeedbackRepository())->destroy($id);
     }
 }

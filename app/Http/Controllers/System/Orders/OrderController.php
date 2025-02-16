@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\System\Orders;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\System\Orders\OrderStoreReqest;
+use App\Http\Requests\System\Orders\OrderUpdateReqest;
+use App\Repositories\Orders\OrderRepository;
 
 class OrderController extends Controller
 {
@@ -14,32 +14,15 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::get(); // orderBy("created_at","desc")->paginate(10)
-        return response()->json([
-            "orders" => $orders
-        ]);
+        return (new OrderRepository())->index();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(OrderStoreReqest $request)
     {
-        Validator::make($request->all(), [
-            "delivery_address" => "required",
-            "total_amount" => "nullable",
-            "special_instructions" => "nullable",
-        ]);
-        $order = Order::create([
-            'customer_id' => auth('customer')->user()->id,
-            'delivery_address' => $request->delivery_address,
-            'total_amount' => $request->total_amount,
-            'special_instructions' => $request->special_instructions
-        ]);
-        return response()->json([
-            "message" => "Order Added Successfuly!!",
-            "order" => $order
-        ]);
+        return (new OrderRepository())->store($request);
     }
 
     /**
@@ -47,30 +30,15 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        $order = Order::findOrFail($id);
-        return response()->json([
-            "order" => $order
-        ]);
+        return (new OrderRepository())->show($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(OrderUpdateReqest $request, string $id)
     {
-        Validator::make($request->all(), [
-            "customer_id" => "required",
-            "status" => "required",
-            "total_amount" => "required",
-            "delivery_address" => "required",
-            "special_instructions" => "nullable",
-        ]);
-        $order = Order::findOrFail($id);
-        $order->update($request->all());
-        return response()->json([
-            "message" => "Order Updated Successfuly!!",
-            "order" => $order
-        ]);
+        return (new OrderRepository())->update($request, $id);
     }
 
     /**
@@ -78,18 +46,11 @@ class OrderController extends Controller
      */
     public function destroy(string $id)
     {
-        $order = Order::findOrFail($id);
-        $order->delete();
-        return response()->json([
-            "message" => "Order Deleted Successfuly!!"
-        ]);
+        return (new OrderRepository())->destroy($id);
     }
 
     public function showCustomerOrders()
     {
-        $orders = Order::where('customer_id', auth('customer')->user()->id)->get();
-        return response()->json([
-            "orders" => $orders
-        ]);
+        return (new OrderRepository())->showCustomerOrders();
     }
 }

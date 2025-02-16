@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\System\Roles;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use App\Http\Requests\System\Roles\RoleRequest;
+use App\Repositories\Roles\RoleRepository;
 
 class RoleController extends Controller
 {
@@ -23,41 +21,19 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::get();
-        return response()->json($roles);
+        return (new RoleRepository())->index();
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function create(){
-        $permissions = Permission::get();
-        return response()->json([
-            "permissions"=> $permissions
-        ]);
+        return (new RoleRepository())->create();
     }
 
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'permission' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
-        $role = Role::create([
-            'name' => $request->input('name'),
-            'guard_name' => 'admin'
-        ]);
-        $role->syncPermissions($request->input('permission'));
-
-        return response()->json([
-            "message"=> "Role Added Successfuly!",
-            "role"=> $role
-        ]);
+        return (new RoleRepository())->store($request);
     }
 
     /**
@@ -65,36 +41,15 @@ class RoleController extends Controller
      */
     public function show(string $id)
     {
-        $role = Role::find($id);
-        return response()->json($role);
+        return (new RoleRepository())->show($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(RoleRequest $request, string $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'permission' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-        $role = Role::find($id);
-
-        $role->update([
-            'name' => $request->input('name'),
-            'guard_name' => 'admin'
-        ]);
-
-         $role->syncPermissions($request->input('permission'));
-
-        return response()->json([
-            "message"=> "Role Updated Successfuly!",
-            "role"=> $role
-            ]);
+        return (new RoleRepository())->update($request, $id);
     }
 
     /**
@@ -102,10 +57,6 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        $role = Role::find($id);
-        $role->delete();
-        return response()->json([
-            'message' => 'Role Deleted Successfuly!',
-            ],200);
+        return (new RoleRepository())->destroy($id);
     }
 }
