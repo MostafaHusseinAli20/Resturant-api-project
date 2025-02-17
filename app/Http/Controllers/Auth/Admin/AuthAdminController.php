@@ -10,27 +10,36 @@ use Illuminate\Http\Request;
 
 class AuthAdminController extends Controller
 {
+    private $loginAdminService;
+    private $registerAdminService;
+    public function __construct(
+        LoginService $loginAdminService,
+        RegisterService $registerAdminService
+    ) {
+        $this->loginAdminService = $loginAdminService;
+        $this->registerAdminService = $registerAdminService;
+    }
     // User registration
     public function register(AuthAdminRequest $request)
     {
-        return (new RegisterService())->register($request);
+        return $this->registerAdminService->register($request);
     }
 
     // User login
     public function login(Request $request)
     {
-        return (new LoginService())->login($request);
+        return $this->loginAdminService->login($request);
     }
 
     // Get authenticated user
     public function getUser()
     {
-        return (new LoginService())->getUser();
+        return $this->loginAdminService->getUser();
     }
 
     // User logout
     public function logout()
     {
-        return (new LoginService())->logout();
+        return $this->loginAdminService->logout();
     }
 }

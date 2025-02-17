@@ -8,12 +8,17 @@ use App\Repositories\Promotions\PromotionRepository;
 
 class PromotionController extends Controller
 {
+    private $promotionRepo;
+    public function __construct(PromotionRepository $promotionRepo)
+    {
+        $this->promotionRepo = $promotionRepo;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return (new PromotionRepository())->index();
+        return $this->promotionRepo->index();
     }
 
     /**
@@ -21,7 +26,7 @@ class PromotionController extends Controller
      */
     public function store(PromotionRequest $request)
     {
-        return (new PromotionRepository())->store($request);
+        return $this->promotionRepo->store($request);
     }
 
     /**
@@ -29,7 +34,7 @@ class PromotionController extends Controller
      */
     public function show(string $id)
     {
-        return (new PromotionRepository())->show($id);
+        return $this->promotionRepo->show($id);
     }
 
     /**
@@ -37,7 +42,7 @@ class PromotionController extends Controller
      */
     public function update(PromotionRequest $request, string $id)
     {
-        return (new PromotionRepository())->update($request, $id);
+        return $this->promotionRepo->update($request, $id);
     }
 
     /**
@@ -45,6 +50,6 @@ class PromotionController extends Controller
      */
     public function destroy(string $id)
     {
-        return (new PromotionRepository())->destroy($id);
+        return $this->promotionRepo->destroy($id);
     }
 }

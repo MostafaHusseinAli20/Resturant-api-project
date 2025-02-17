@@ -8,12 +8,17 @@ use App\Services\Payments\PaymentService;
 
 class PaymentController extends Controller
 {
+    private $paymentServeice;
+    public function __construct(PaymentService $paymentServeice)
+    {
+        $this->paymentServeice = $paymentServeice;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-       return (new PaymentService())->index();
+       return $this->paymentServeice->index();
     }
 
     /**
@@ -21,7 +26,7 @@ class PaymentController extends Controller
      */
     public function store(PaymentRequest $request)
     {
-        return (new PaymentService())->store($request);
+        return $this->paymentServeice->store($request);
     }
 
     /**
@@ -29,7 +34,7 @@ class PaymentController extends Controller
      */
     public function show(string $id)
     {
-        return (new PaymentService())->show($id);
+        return $this->paymentServeice->show($id);
     }
 
     /**
@@ -37,11 +42,11 @@ class PaymentController extends Controller
      */
     public function destroy(string $id)
     {
-        return (new PaymentService())->destroy($id);
+        return $this->paymentServeice->destroy($id);
     }
 
     public function forceDestroy(string $id)
     {
-        return (new PaymentService())->forceDestroy($id);
+        return $this->paymentServeice->forceDestroy($id);
     }
 }

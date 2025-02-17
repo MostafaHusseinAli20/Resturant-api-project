@@ -8,12 +8,17 @@ use App\Repositories\Reservations\ReservationRepository;
 
 class ReservationController extends Controller
 {
+    private $ReservationRepo;
+    public function __construct(ReservationRepository $ReservationRepo)
+    {
+        $this->ReservationRepo = $ReservationRepo;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-       return (new ReservationRepository())->index();
+       return $this->ReservationRepo->index();
     }
 
     /**
@@ -21,7 +26,7 @@ class ReservationController extends Controller
      */
     public function store(ReservationRequest $request)
     {
-        return (new ReservationRepository())->store($request);
+        return $this->ReservationRepo->store($request);
     }
 
     /**
@@ -29,7 +34,7 @@ class ReservationController extends Controller
      */
     public function show(string $id)
     {
-       return (new ReservationRepository())->show($id);
+        return $this->ReservationRepo->show($id);
     }
 
     /**
@@ -37,7 +42,7 @@ class ReservationController extends Controller
      */
     public function update(ReservationRequest $request, string $id)
     {
-        return (new ReservationRepository())->update($request, $id);
+        return $this->ReservationRepo->update($request, $id);
     }
 
     /**
@@ -45,16 +50,16 @@ class ReservationController extends Controller
      */
     public function destroy(string $id)
     {
-       return (new ReservationRepository())->destroy($id);
+        return $this->ReservationRepo->destroy($id);
     }
 
     public function showCustomerReservation()
     {
-       return (new ReservationRepository())->showCustomerReservation();
+        return $this->ReservationRepo->showCustomerReservation();
     }
 
     public function deleteCustomerReservation()
     {
-        return (new ReservationRepository())->deleteCustomerReservation();
+        return $this->ReservationRepo->deleteCustomerReservation();
     }
 }

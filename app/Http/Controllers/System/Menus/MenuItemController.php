@@ -8,12 +8,17 @@ use App\Repositories\Menus\MenuItemRepository;
 
 class MenuItemController extends Controller
 {
+    private $menuItemRepo;
+    public function __construct(MenuItemRepository $menuItemRepo)
+    {
+        $this->menuItemRepo = $menuItemRepo;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return (new MenuItemRepository())->index();
+        return $this->menuItemRepo->index();
     }
 
     /**
@@ -21,7 +26,7 @@ class MenuItemController extends Controller
      */
     public function store(MenuItemReqest $request)
     {
-        return (new MenuItemRepository())->store($request);
+        return $this->menuItemRepo->store($request);
     }
 
     /**
@@ -29,7 +34,7 @@ class MenuItemController extends Controller
      */
     public function show(string $id)
     {
-        return (new MenuItemRepository())->show($id);
+        return $this->menuItemRepo->show($id);
     }
 
     /**
@@ -37,7 +42,7 @@ class MenuItemController extends Controller
      */
     public function update(MenuItemReqest $request, string $id)
     {
-        return (new MenuItemRepository())->update($request, $id);
+        return $this->menuItemRepo->update($request, $id);
     }
 
     /**
@@ -45,6 +50,6 @@ class MenuItemController extends Controller
      */
     public function destroy(string $id)
     {
-        return (new MenuItemRepository())->destroy($id);
+        return $this->menuItemRepo->destroy($id);
     }
 }

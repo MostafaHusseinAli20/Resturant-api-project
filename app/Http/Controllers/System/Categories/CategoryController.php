@@ -5,16 +5,21 @@ namespace App\Http\Controllers\System\Categories;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\System\Categories\CategoryRequest;
 use App\Repositories\Categories\CategoryRepository;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    private $categoryRepo;
+    
+    public function __construct(CategoryRepository $categoryRepo)
+    {
+        $this->categoryRepo = $categoryRepo;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return (new CategoryRepository())->index();
+        return $this->categoryRepo->index();
     }
 
     /**
@@ -22,7 +27,7 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        return (new CategoryRepository())->store($request);
+       return $this->categoryRepo->store($request);
     }
 
     /**
@@ -30,15 +35,15 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        return (new CategoryRepository())->show($id);
+        return $this->categoryRepo->show($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CategoryRequest $request, string $id)
     {
-        return (new CategoryRepository())->update($request, $id);
+        return $this->categoryRepo->update($request, $id);
     }
 
     /**
@@ -46,6 +51,6 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        return (new CategoryRepository())->destroy($id);
+       return $this->categoryRepo->destroy($id);
     }
 }

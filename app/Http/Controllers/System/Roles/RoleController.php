@@ -8,32 +8,30 @@ use App\Repositories\Roles\RoleRepository;
 
 class RoleController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware(['auth:admin'])->only(['create', 'store']);
-    //     $this->middleware(['auth:admin'])->only('index');
-    //     $this->middleware(['auth:admin'])->only(['update']);
-    //     $this->middleware(['auth:admin'])->only('destroy');
-    // }
+    private $roleRepo;
+    public function __construct(RoleRepository $roleRepo)
+    {
+        $this->roleRepo = $roleRepo;
+    }
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return (new RoleRepository())->index();
+        return $this->roleRepo->index();
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function create(){
-        return (new RoleRepository())->create();
+        return $this->roleRepo->create();
     }
 
     public function store(RoleRequest $request)
     {
-        return (new RoleRepository())->store($request);
+        return $this->roleRepo->store($request);
     }
 
     /**
@@ -41,7 +39,7 @@ class RoleController extends Controller
      */
     public function show(string $id)
     {
-        return (new RoleRepository())->show($id);
+        return $this->roleRepo->show($id);
     }
 
     /**
@@ -49,7 +47,7 @@ class RoleController extends Controller
      */
     public function update(RoleRequest $request, string $id)
     {
-        return (new RoleRepository())->update($request, $id);
+        return $this->roleRepo->update($request, $id);
     }
 
     /**
@@ -57,6 +55,6 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        return (new RoleRepository())->destroy($id);
+        return $this->roleRepo->store($id);
     }
 }

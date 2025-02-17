@@ -8,12 +8,17 @@ use App\Repositories\Hero\HeroRepository;
 
 class HeroSectionController extends Controller
 {
-    public function index()
-    {
-       return (new HeroRepository())->index();
-    }
-    public function store(HeroReqest $request)
-    {
-       return (new HeroRepository())->store($request);
-    }
+   private $heroRepo;
+   public function __construct(HeroRepository $heroRepo)
+   {
+      $this->heroRepo = $heroRepo;
+   }
+   public function index()
+   {
+      return $this->heroRepo->index();
+   }
+   public function store(HeroReqest $request)
+   {
+      return $this->heroRepo->store($request);
+   }
 }

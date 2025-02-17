@@ -8,12 +8,17 @@ use App\Repositories\Events\EventRepository;
 
 class EventController extends Controller
 {
+    private $eventRepo;
+    public function __construct(EventRepository $eventRepo)
+    {
+        $this->eventRepo = $eventRepo;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return (new EventRepository())->index();
+        return $this->eventRepo->index();
     }
 
     /**
@@ -21,7 +26,7 @@ class EventController extends Controller
      */
     public function store(EventReqest $request)
     {
-        return (new EventRepository())->store($request);
+        return $this->eventRepo->store($request);
     }
 
     /**
@@ -29,7 +34,7 @@ class EventController extends Controller
      */
     public function show(string $id)
     {
-        return (new EventRepository())->show($id);
+        return $this->eventRepo->show($id);
     }
 
     /**
@@ -37,7 +42,7 @@ class EventController extends Controller
      */
     public function update(EventReqest $request, string $id)
     {
-        return (new EventRepository())->update($request, $id);
+        return $this->eventRepo->update($request, $id);
     }
 
     /**
@@ -45,6 +50,6 @@ class EventController extends Controller
      */
     public function destroy(string $id)
     {
-        return (new EventRepository())->destroy($id);
+        return $this->eventRepo->destroy($id);
     }
 }

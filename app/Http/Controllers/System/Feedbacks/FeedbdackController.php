@@ -8,12 +8,17 @@ use App\Repositories\Feedbacks\FeedbackRepository;
 
 class FeedbdackController extends Controller
 {
+    private $feedbackRepo;
+    public function __construct(FeedbackRepository $feedbackRepo)
+    {
+        $this->feedbackRepo = $feedbackRepo;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return (new FeedbackRepository())->index();
+        return $this->feedbackRepo->index();
     }
 
     /**
@@ -21,7 +26,7 @@ class FeedbdackController extends Controller
      */
     public function store(FeedbackReqest $request)
     {
-        return (new FeedbackRepository())->store($request);
+        return $this->feedbackRepo->store($request);
     }
 
     /**
@@ -29,7 +34,7 @@ class FeedbdackController extends Controller
      */
     public function show(string $id)
     {
-        return (new FeedbackRepository())->show($id);
+        return $this->feedbackRepo->show($id);
     }
 
     /**
@@ -37,7 +42,7 @@ class FeedbdackController extends Controller
      */
     public function update(FeedbackReqest $request, string $id)
     {
-        return (new FeedbackRepository())->update($request, $id);
+        return $this->feedbackRepo->update($request, $id);
     }
 
     /**
@@ -45,6 +50,6 @@ class FeedbdackController extends Controller
      */
     public function destroy(string $id)
     {
-        return (new FeedbackRepository())->destroy($id);
+        return $this->feedbackRepo->destroy($id);
     }
 }

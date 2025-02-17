@@ -8,12 +8,17 @@ use App\Repositories\Tables\TableRepository;
 
 class TableController extends Controller
 {
+    private $tableRepo;
+    public function __construct(TableRepository $tableRepo)
+    {
+        $this->tableRepo = $tableRepo;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return (new TableRepository())->index();
+        return $this->tableRepo->index();
     }
 
     /**
@@ -21,7 +26,7 @@ class TableController extends Controller
      */
     public function store(TableRequest $request)
     {
-        return (new TableRepository())->store($request);
+        return $this->tableRepo->store($request);
     }
 
     /**
@@ -29,7 +34,7 @@ class TableController extends Controller
      */
     public function show(string $id)
     {
-        return (new TableRepository())->show($id);
+        return $this->tableRepo->show($id);
     }
 
     /**
@@ -37,7 +42,7 @@ class TableController extends Controller
      */
     public function update(TableRequest $request, string $id)
     {
-        return (new TableRepository())->update($request, $id);
+        return $this->tableRepo->update($request, $id);
     }
 
     /**
@@ -45,6 +50,6 @@ class TableController extends Controller
      */
     public function destroy(string $id)
     {
-        return (new TableRepository())->destroy($id);
+        return $this->tableRepo->destroy($id);
     }
 }

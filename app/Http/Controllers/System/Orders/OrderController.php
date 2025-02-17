@@ -9,12 +9,17 @@ use App\Repositories\Orders\OrderRepository;
 
 class OrderController extends Controller
 {
+    private $orderRepo;
+    public function __construct(OrderRepository $orderRepo)
+    {
+        $this->orderRepo = $orderRepo;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return (new OrderRepository())->index();
+        return $this->orderRepo->index();
     }
 
     /**
@@ -22,7 +27,7 @@ class OrderController extends Controller
      */
     public function store(OrderStoreReqest $request)
     {
-        return (new OrderRepository())->store($request);
+        return $this->orderRepo->store($request);
     }
 
     /**
@@ -30,7 +35,7 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        return (new OrderRepository())->show($id);
+        return $this->orderRepo->show($id);
     }
 
     /**
@@ -38,7 +43,7 @@ class OrderController extends Controller
      */
     public function update(OrderUpdateReqest $request, string $id)
     {
-        return (new OrderRepository())->update($request, $id);
+        return $this->orderRepo->update($request, $id);
     }
 
     /**
@@ -46,11 +51,11 @@ class OrderController extends Controller
      */
     public function destroy(string $id)
     {
-        return (new OrderRepository())->destroy($id);
+        return $this->orderRepo->destroy($id);
     }
 
     public function showCustomerOrders()
     {
-        return (new OrderRepository())->showCustomerOrders();
+        return $this->orderRepo->showCustomerOrders();
     }
 }

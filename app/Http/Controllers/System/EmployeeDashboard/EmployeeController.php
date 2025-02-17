@@ -8,12 +8,18 @@ use App\Repositories\Empolyees\EmployeeRepository;
 
 class EmployeeController extends Controller
 {
+    private $employeeRepo;
+
+    public function __construct(EmployeeRepository $employeeRepo)
+    {
+        $this->employeeRepo = $employeeRepo;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return (new EmployeeRepository())->index();
+        return $this->employeeRepo->index();
     }
     
     /**
@@ -21,7 +27,7 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        return (new EmployeeRepository())->show($id);
+        return $this->employeeRepo->show($id);
     }
 
     /**
@@ -29,7 +35,7 @@ class EmployeeController extends Controller
      */
     public function update(AuthEmployeeRequest $request, $id)
     {
-        return (new EmployeeRepository())->update($request, $id);
+        return $this->employeeRepo->update($request, $id);
     }
 
     /**
@@ -37,6 +43,6 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        return (new EmployeeRepository())->destroy($id);
+        return $this->employeeRepo->destroy($id);
     }
 }

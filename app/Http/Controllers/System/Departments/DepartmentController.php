@@ -8,12 +8,18 @@ use App\Repositories\Departments\DepartmentRepository;
 
 class DepartmentController extends Controller
 {
+    private $departmentRepo;
+
+    public function __construct(DepartmentRepository $departmentRepo)
+    {
+        $this->departmentRepo = $departmentRepo;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return (new DepartmentRepository())->index();
+        return $this->departmentRepo->index();
     }
 
     /**
@@ -21,7 +27,7 @@ class DepartmentController extends Controller
      */
     public function store(DepartmentRequest $request)
     {
-        return (new DepartmentRepository())->store($request);
+        return $this->departmentRepo->store($request);
     }
 
     /**
@@ -29,7 +35,7 @@ class DepartmentController extends Controller
      */
     public function show(string $id)
     {
-        return (new DepartmentRepository())->show($id);
+        return $this->departmentRepo->show($id);
     }
 
     /**
@@ -37,7 +43,7 @@ class DepartmentController extends Controller
      */
     public function update(DepartmentRequest $request, string $id)
     {
-        return (new DepartmentRepository())->update($request, $id);
+        return $this->departmentRepo->update($request, $id);
     }
 
     /**
@@ -45,6 +51,6 @@ class DepartmentController extends Controller
      */
     public function destroy(string $id)
     {
-        return (new DepartmentRepository())->destroy($id);
+        return $this->departmentRepo->destroy($id);
     }
 }
