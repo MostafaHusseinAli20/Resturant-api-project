@@ -2,12 +2,13 @@
 
 namespace App\Services\AuthCustomer;
 
+use App\Interfaces\Auth\RegisterInterface;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class RegisterService{
+class RegisterService implements RegisterInterface
+{
     public function register($request)
     {
         // if($validator->fails()){

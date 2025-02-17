@@ -2,9 +2,10 @@
 
 namespace App\Repositories\Reservations;
 
+use App\Interfaces\System\Repositories\CrudRepoInterface;
 use App\Models\Reservations;
 
-class ReservationRepository
+class ReservationRepository implements CrudRepoInterface
 {
     /**
      * Display a listing of the resource.

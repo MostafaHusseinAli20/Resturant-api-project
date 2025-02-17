@@ -2,10 +2,11 @@
 
 namespace App\Services\Payments;
 
+use App\Interfaces\System\Services\Payments\PaymentInterface;
 use App\Models\Order;
 use App\Models\Payment;
 
-class PaymentService
+class PaymentService implements PaymentInterface
 {
     /**
      * Display a listing of the resource.

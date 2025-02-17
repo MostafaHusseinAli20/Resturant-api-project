@@ -2,12 +2,13 @@
 
 namespace App\Services\AuthEmployee;
 
+use App\Interfaces\Auth\RegisterInterface;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class RegisterService{
+class RegisterService implements RegisterInterface
+{
     // User registration
     public function register($request)
     {

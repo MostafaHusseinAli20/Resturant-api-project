@@ -2,9 +2,10 @@
 
 namespace App\Repositories\Empolyees;
 
+use App\Interfaces\System\Repositories\Customes\CrudRepoEmployeeInterface;
 use App\Models\Employee;
 
-class EmployeeRepository
+class EmployeeRepository implements CrudRepoEmployeeInterface
 {
 /**
      * Display a listing of the resource.

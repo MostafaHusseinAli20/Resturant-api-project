@@ -2,9 +2,10 @@
 
 namespace App\Repositories\Promotions;
 
+use App\Interfaces\System\Repositories\CrudRepoInterface;
 use App\Models\Promotion;
 
-class PromotionRepository
+class PromotionRepository implements CrudRepoInterface
 {
     /**
      * Display a listing of the resource.

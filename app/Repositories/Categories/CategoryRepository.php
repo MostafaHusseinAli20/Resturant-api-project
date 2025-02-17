@@ -2,9 +2,10 @@
 
 namespace App\Repositories\Categories;
 
+use App\Interfaces\System\Repositories\CrudRepoInterface;
 use App\Models\Category;
 
-class CategoryRepository
+class CategoryRepository implements CrudRepoInterface
 {
     /**
      * Display a listing of the resource.

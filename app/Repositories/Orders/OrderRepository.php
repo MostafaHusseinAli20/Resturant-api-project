@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Repositories\Orders;
-
+use App\Interfaces\System\Repositories\CrudRepoInterface;
 use App\Models\Order;
 
-class OrderRepository
+class OrderRepository implements CrudRepoInterface
 {
     /**
      * Display a listing of the resource.

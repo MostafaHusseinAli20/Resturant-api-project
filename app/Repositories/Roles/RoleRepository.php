@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Repositories\Roles;
-
+use App\Interfaces\System\Repositories\CrudRepoInterface;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-class RoleRepository
+class RoleRepository implements CrudRepoInterface
 {
     /**
      * Display a listing of the resource.

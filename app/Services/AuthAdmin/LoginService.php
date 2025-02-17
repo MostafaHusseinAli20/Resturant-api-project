@@ -2,10 +2,12 @@
 
 namespace App\Services\AuthAdmin;
 
+use App\Interfaces\Auth\LoginInterface;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class LoginService{
+class LoginService implements LoginInterface
+{
     public function login($request)
     {
         $credentials = $request->only('email', 'password');

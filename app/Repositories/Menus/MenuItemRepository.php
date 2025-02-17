@@ -2,11 +2,12 @@
 
 namespace App\Repositories\Menus;
 
+use App\Interfaces\System\Repositories\CrudRepoInterface;
 use App\Models\MenuItem;
 use App\Models\MenuItemImage;
 use Illuminate\Support\Facades\Storage;
 
-class MenuItemRepository 
+class MenuItemRepository implements CrudRepoInterface
 {
     /**
      * Display a listing of the resource.

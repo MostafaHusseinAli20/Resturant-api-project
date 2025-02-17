@@ -2,11 +2,13 @@
 
 namespace App\Services\AuthAdmin;
 
+use App\Interfaces\Auth\RegisterInterface;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class RegisterService{
+class RegisterService implements RegisterInterface
+{
     public function register($request)
     {
         $admin = Admin::create([

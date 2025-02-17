@@ -2,9 +2,10 @@
 
 namespace App\Repositories\Tables;
 
+use App\Interfaces\System\Repositories\CrudRepoInterface;
 use App\Models\Table;
 
-class TableRepository
+class TableRepository implements CrudRepoInterface
 {
     /**
      * Display a listing of the resource.

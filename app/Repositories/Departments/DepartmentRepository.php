@@ -2,9 +2,10 @@
 
 namespace App\Repositories\Departments;
 
+use App\Interfaces\System\Repositories\CrudRepoInterface;
 use App\Models\Department;
 
-class DepartmentRepository
+class DepartmentRepository implements CrudRepoInterface
 {
     /**
      * Display a listing of the resource.

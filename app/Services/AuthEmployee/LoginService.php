@@ -2,10 +2,11 @@
 
 namespace App\Services\AuthEmployee;
 
+use App\Interfaces\Auth\LoginInterface;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class LoginService
+class LoginService implements LoginInterface
 {
     // User login
     public function login($request)

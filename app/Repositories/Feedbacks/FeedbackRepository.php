@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Repositories\Feedbacks;
-
+use App\Interfaces\System\Repositories\CrudRepoInterface;
 use App\Models\Feedback;
 
-class FeedbackRepository
+class FeedbackRepository implements CrudRepoInterface
 {
     /**
      * Display a listing of the resource.

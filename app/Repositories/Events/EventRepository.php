@@ -2,9 +2,10 @@
 
 namespace App\Repositories\Events;
 
+use App\Interfaces\System\Repositories\CrudRepoInterface;
 use App\Models\Event;
 
-class EventRepository
+class EventRepository implements CrudRepoInterface
 {
     /**
      * Display a listing of the resource.

@@ -2,9 +2,10 @@
 
 namespace App\Repositories\Hero;
 
+use App\Interfaces\System\Repositories\Customes\CrudRepoHeroInterface;
 use App\Models\HeroSection;
 
-class HeroRepository
+class HeroRepository implements CrudRepoHeroInterface
 {
     public function index()
     {
