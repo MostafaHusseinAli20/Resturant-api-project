@@ -169,7 +169,9 @@ Route::middleware(['auth:customer'])->prefix('/customer')->group(function () {
     
     // Payment Customer Routes
     Route::post('/payment/store', [PaymentController::class, 'store']);
-    
+    Route::get('/paypal/payment', [PaymentController::class, 'createPayment'])->name('paypal.payment');
+    Route::get('/paypal/success', [PaymentController::class, 'success'])->name('paypal.success');
+    Route::get('/paypal/cancel', [PaymentController::class, 'cancel'])->name('paypal.cancel');
     
     // Orders Customer Routes
     Route::get('/order/show', [OrderController::class, 'showCustomerOrders']);

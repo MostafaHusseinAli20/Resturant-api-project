@@ -6,8 +6,45 @@ use App\Interfaces\System\Services\Payments\PaymentInterface;
 use App\Models\Order;
 use App\Models\Payment;
 
+use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use Srmklive\PayPal\Facades\PayPal;
+
 class PaymentService implements PaymentInterface
 {
+    protected $provider;
+    public function __construct()
+    {
+        $this->provider = new PayPalClient;
+        $this->provider->setApiCredentials(config('paypal'));
+        $this->provider->getAccessToken();
+    }
+
+    public function createPayment($amount)
+    {
+        $order = [
+            'intent' => 'CAPTURE',
+            'purchase_units' => [
+                [
+                    'amount' => [
+                        'currency_code' => 'USD',
+                        'value' => $amount,
+                    ]
+                ]
+            ],
+            'application_context' => [
+                'return_url' => route('paypal.success'),
+                'cancel_url' => route('paypal.cancel'),
+            ]
+        ];
+
+        return $this->provider->createOrder($order);
+    }
+
+    public function capturePayment($orderId)
+    {
+        return $this->provider->capturePaymentOrder($orderId);
+    }
+
     /**
      * Display a listing of the resource.
      */

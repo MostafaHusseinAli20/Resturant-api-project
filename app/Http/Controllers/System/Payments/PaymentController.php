@@ -4,15 +4,39 @@ namespace App\Http\Controllers\System\Payments;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\System\Payments\PaymentRequest;
+use App\Models\MenuItem;
+use App\Models\Order;
 use App\Services\Payments\PaymentService;
+use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
     private $paymentServeice;
-    public function __construct(PaymentService $paymentServeice)
+    private $createPayment;
+    
+    public function __construct(PaymentService $paymentServeice, CreatePaymentController  $createPayment)
     {
         $this->paymentServeice = $paymentServeice;
+        $this->createPayment = $createPayment;
     }
+
+    // PayPal
+    public function createPayment()
+    {
+        return $this->createPayment->createPayment();
+    }
+
+    public function success(Request $request)
+    {
+       return $this->createPayment->success($request);
+    }
+
+    public function cancel()
+    {
+       return $this->createPayment->cancel();
+    }
+    // end PayPal
+
     /**
      * Display a listing of the resource.
      */
